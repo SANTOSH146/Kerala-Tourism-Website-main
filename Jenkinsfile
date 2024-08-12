@@ -23,7 +23,12 @@ pipeline {
                     def xamppHtdocs = 'C:/xampp/htdocs/Tourism_website'
 
                     // Remove the existing website files
-                    bat "rmdir /S /Q ${xamppHtdocs}"
+                    bat """
+                    if exist "${xamppHtdocs}" (
+                        echo Deleting existing files...
+                        rd /S /Q "${xamppHtdocs}"
+                    )
+                    """
 
                     // Create the directory if it does not exist
                     bat "mkdir ${xamppHtdocs}"
