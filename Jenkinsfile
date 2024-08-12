@@ -19,11 +19,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Define the path to your XAMPP htdocs directory
-                    def xamppHtdocs = 'C:\xampp\htdocs\Tourism_website'
+                    // Define the path to your XAMPP htdocs directory with correct path separator
+                    def xamppHtdocs = 'C:/xampp/htdocs/Tourism_website'
 
                     // Remove the existing website files
-                    deleteDir(xamppHtdocs)
+                    bat "rmdir /S /Q ${xamppHtdocs}"
+
+                    // Create the directory if it does not exist
+                    bat "mkdir ${xamppHtdocs}"
 
                     // Copy the new website files to the XAMPP htdocs directory
                     dir('your-website-directory') {
