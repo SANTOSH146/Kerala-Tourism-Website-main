@@ -21,12 +21,12 @@ pipeline {
                 script {
                     // Define the path to your XAMPP htdocs directory
                     def xamppHtdocs = 'C:/xampp/htdocs/Tourism_website'
-                    def websiteDir = 'your-website-directory'
+                    def websiteDir = 'C:/ProgramData/Jenkins/.jenkins/workspace/POC/your-website-directory'
 
                     // Remove the existing website files if the directory exists
                     bat """
                     if exist "${xamppHtdocs}" (
-                        echo Deleting existing files...    
+                        echo Deleting existing files...
                         rd /S /Q "${xamppHtdocs}"
                     )
                     """
@@ -35,9 +35,9 @@ pipeline {
                     bat "mkdir \"${xamppHtdocs}\""
 
                     // Copy the new website files to the XAMPP htdocs directory
-                    dir(websiteDir) {
-                        bat "xcopy /E /I /Y * ${xamppHtdocs}"
-                    }
+                    bat """
+                    xcopy "${websiteDir}\\*" "${xamppHtdocs}\\*" /E /I /Y
+                    """
                 }
             }
         }
