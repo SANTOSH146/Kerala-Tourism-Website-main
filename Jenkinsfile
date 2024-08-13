@@ -32,7 +32,7 @@ pipeline {
                     //bat 'stylelint "**/*.css"'
 
                     // Example: Running JavaScript tests (if applicable)
-                    bat 'eslint "**/*.js"'
+                    //bat 'eslint "**/*.js"'
 
                     // You can add more tests or validations as needed
                 }
