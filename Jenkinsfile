@@ -4,37 +4,46 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Pull the latest version of the website files from the GitHub repository
                 git branch: 'main', url: 'https://github.com/SANTOSH146/Kerala-Tourism-Website-main.git'
             }
         }
 
         stage('Build') {
             steps {
-                // Optional: Build the website if there is any build process
                 echo 'No build steps required for this static website'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    // Example: Running HTML validation using a tool like HTMLHint or a linter
+                    bat 'htmlhint "**/*.html"'
+
+                    // Example: Running CSS validation
+                    bat 'stylelint "**/*.css"'
+
+                    // Example: Running JavaScript tests (if applicable)
+                    bat 'eslint "**/*.js"'
+
+                    // You can add more tests or validations as needed
+                }
             }
         }
 
         stage('Deploy') {
             steps {
                 script {
-                    // Define the path to your XAMPP htdocs directory
                     def xamppHtdocs = 'C:/xampp/htdocs/Tourism_website'
-                    def websiteDir = "${env.WORKSPACE}"  // Automatically points to the current workspace directory
+                    def websiteDir = "${env.WORKSPACE}"
 
-                    // Remove the existing website files if the directory exists
                     bat """
                     if exist "${xamppHtdocs}" (
                         echo Deleting existing files...
                         rd /S /Q "${xamppHtdocs}"
                     )
                     """
-
-                    // Create the directory
                     bat "mkdir \"${xamppHtdocs}\""
-
-                    // Copy the new website files to the XAMPP htdocs directory
                     bat """
                     xcopy "${websiteDir}\\*" "${xamppHtdocs}\\" /E /I /Y
                     """
@@ -49,6 +58,10 @@ pipeline {
         }
         failure {
             echo 'Deployment failed.'
+        }
+        always {
+            // Always run this block, even if the pipeline fails or succeeds
+            echo 'Pipeline finished.'
         }
     }
 }
