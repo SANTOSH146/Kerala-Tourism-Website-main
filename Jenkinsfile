@@ -29,7 +29,7 @@ pipeline {
                     bat 'htmlhint "**/*.html"'
 
                     // Example: Running CSS validation
-                    //bat 'stylelint "**/*.css"'
+                    bat 'stylelint "**/*.css"'
 
                     // Example: Running JavaScript tests (if applicable)
                     //bat 'eslint "**/*.js"'
