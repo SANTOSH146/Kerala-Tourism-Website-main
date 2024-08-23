@@ -1,22 +1,23 @@
-name: Deploy Static Webpage
+name: Deploy to XAMPP Server
 
 on:
   push:
     branches:
-      - main  # or the branch you want to deploy from
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Install SSH client
-      run: sudo apt-get install -y sshpass
-
-    - name: Copy files to XAMPP server
-      run: |
-        sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }} "rm -rf /path/to/xampp/htdocs/*"
-        sshpass -p ${{ secrets.SSH_PASSWORD }} scp -o StrictHostKeyChecking=no -r ./path/to/your/static/files/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_IP }}:/path/to/xampp/htdocs/
+      - name: Deploy to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          scp -i private_key.pem -r ./your-site-folder $SERVER_USER@$SERVER_HOST:/path/to/your/xampp/htdocs/
