@@ -21,8 +21,8 @@ jobs:
       - name: Upload to Azure Storage
         run: |
           az storage blob upload-batch \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-            --connection-string ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} \
-            --source ./ \
-            --destination \$web \
-            --overwrite
+          --connection-string ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} \
+          --source ./ \
+          --destination \$web \
+          --overwrite
+
