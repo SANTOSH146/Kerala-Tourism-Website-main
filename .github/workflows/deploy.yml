@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup Azure CLI
+        uses: azure/setup-azure-cli@v1
+
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -21,7 +24,6 @@ jobs:
       - name: Upload to Azure Storage
         run: |
           az storage blob upload-batch \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
             --connection-string ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} \
             --source ./ \
             --destination \$web \
