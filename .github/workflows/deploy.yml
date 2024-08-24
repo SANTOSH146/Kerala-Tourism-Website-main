@@ -23,6 +23,6 @@ jobs:
         with:
           connection-string: "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
           container: '$web'
-          source: 'D:\WEB DEV\Kerala-Tourism-Website-main'
+          source: './'
           overwrite: true
 
