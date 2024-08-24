@@ -1,23 +1,28 @@
-name: Deploy to XAMPP Server
+name: Deploy to Azure Storage
 
 on:
   push:
     branches:
-      - main
+      - main  # or your preferred branch
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          scp -i private_key.pem -r ./your-site-folder $SERVER_USER@$SERVER_HOST:/path/to/your/xampp/htdocs/
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Upload to Azure Storage
+        uses: azure/storage-blob-upload@v1
+        with:
+          connection-string: "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+          container: '$web'
+          source: './**'
+          overwrite: true
+
