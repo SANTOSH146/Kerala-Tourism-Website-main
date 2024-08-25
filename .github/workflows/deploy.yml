@@ -24,6 +24,10 @@ jobs:
           server-username: ${{ github.actor }}
           server-password: ${{ secrets.GITHUB_TOKEN }}
           overwrite-settings: true
+      - name: Verify Java Version
+        run: |
+          java -version
+          javac -version
 
       - name: Install SonarScanner
         run: |
@@ -39,7 +43,14 @@ jobs:
       - name: Set JAVA_HOME to JDK 17
         run: |
           echo "JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64" >> $GITHUB_ENV
-
+          
+      - name: Set JAVA_HOME and Update Alternatives
+        run: |
+          echo "JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64" >> $GITHUB_ENV
+          sudo update-alternatives --install /usr/bin/java java /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64/bin/java 1
+          sudo update-alternatives --install /usr/bin/javac javac /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64/bin/javac 1
+          sudo update-alternatives --config java
+          sudo update-alternatives --config javac
 
       - name: SonarCloud Scan
         env:
