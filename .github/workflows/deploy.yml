@@ -27,7 +27,7 @@ jobs:
 
       - name: Install SonarScanner
         run: |
-          SONAR_SCANNER_VERSION=4.6.2.4856
+          SONAR_SCANNER_VERSION=4.6.2.2856
           curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
           unzip sonar-scanner.zip
           sudo mv sonar-scanner-$SONAR_SCANNER_VERSION-linux /opt/sonar-scanner
