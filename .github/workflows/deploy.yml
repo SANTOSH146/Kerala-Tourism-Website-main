@@ -25,6 +25,12 @@ jobs:
           server-password: ${{ secrets.GITHUB_TOKEN }}
           overwrite-settings: true
 
+      - name: Install SonarScanner
+        run: |
+          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
+          unzip sonar-scanner.zip
+          export PATH="$PATH:$(pwd)/sonar-scanner-4.8.0.2856-linux/bin"
+
 
       - name: SonarCloud Scan
         env:
