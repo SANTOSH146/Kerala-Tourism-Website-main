@@ -36,6 +36,10 @@ jobs:
       - name: Verify SonarScanner Installation
         run: sonar-scanner --version
 
+      - name: Set JAVA_HOME to JDK 17
+        run: |
+          echo "JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64" >> $GITHUB_ENV
+
 
       - name: SonarCloud Scan
         env:
