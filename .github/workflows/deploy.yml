@@ -1,4 +1,4 @@
-name: Build, SonarCloud Analysis, and Deploy to Azure Storage
+name: Deploy to Azure Storage
 
 on:
   push:
@@ -13,59 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'  # Use 'temurin', 'adopt', or another supported distribution
-          java-package: 'jdk'
-          check-latest: false
-          server-id: github
-          server-username: ${{ github.actor }}
-          server-password: ${{ secrets.GITHUB_TOKEN }}
-          overwrite-settings: true
-      - name: Verify Java Version
-        run: |
-          java -version
-          javac -version
-
-      - name: Install SonarScanner
-        run: |
-          SONAR_SCANNER_VERSION=4.8.0.2856
-          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
-          unzip sonar-scanner.zip
-          sudo mv sonar-scanner-$SONAR_SCANNER_VERSION-linux /opt/sonar-scanner
-          sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
-          echo "SonarScanner installed and linked."
-
-      - name: Verify SonarScanner Installation
-        run: sonar-scanner --version || echo "SonarScanner not found."
-
-      - name: Set JAVA_HOME to JDK 17
-        run: |
-          echo "JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64" >> $GITHUB_ENV
-          
-      - name: Set JAVA_HOME and Update Alternatives
-        run: |
-          echo "JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64" >> $GITHUB_ENV
-          sudo update-alternatives --install /usr/bin/java java /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64/bin/java 1
-          sudo update-alternatives --install /usr/bin/javac javac /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64/bin/javac 1
-          sudo update-alternatives --set java /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64/bin/java
-          sudo update-alternatives --set javac /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64/bin/javac
-          
-      - name: SonarCloud Scan
-        env:
-          JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64
-          PATH: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.12-7/x64/bin:$PATH
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner \
-            -Dsonar.organization=santosh146\
-            -Dsonar.projectKey=SANTOSH146_Kerala-Tourism-Website-main\
-            -Dsonar.sources=.\
-            -Dsonar.host.url=https://sonarcloud.io\
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
+      
       - name: Azure Login
         uses: azure/login@v1
         with:
