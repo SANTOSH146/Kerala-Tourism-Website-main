@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
+        distribution: 'temurin' # Use 'temurin' for Adoptium or 'zulu' for Azul Zulu JDK
+        #cache: 'maven' # Optional: You can use cache if you are using Maven
 
     - name: Install SonarScanner
       run: |
