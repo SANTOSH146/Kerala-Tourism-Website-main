@@ -20,14 +20,16 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'temurin' # Use 'temurin' for Adoptium or 'zulu' for Azul Zulu JDK
-        #cache: 'maven' # Optional: You can use cache if you are using Maven
+        distribution: 'temurin'
 
     - name: Install SonarScanner
       run: |
+        # Download and install SonarScanner
         curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
         unzip sonar-scanner.zip -d $HOME
         export PATH="$HOME/sonar-scanner-4.7.0.2747-linux/bin:$PATH"
+        # Verify installation
+        sonar-scanner --version
 
     - name: Run SonarQube Scanner
       env:
