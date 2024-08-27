@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  analyze:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,10 +24,11 @@ jobs:
 
     - name: Install SonarScanner
       run: |
-        # Download and install SonarScanner
+        # Download and unzip SonarScanner
         curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
         unzip sonar-scanner.zip -d $HOME
-        export PATH="$HOME/sonar-scanner-4.7.0.2747-linux/bin:$PATH"
+        # Add SonarScanner to the PATH
+        echo "$HOME/sonar-scanner-4.7.0.2747-linux/bin" >> $GITHUB_ENV
         # Verify installation
         sonar-scanner --version
 
