@@ -1,4 +1,4 @@
-name: Deploy to Azure Storage
+name: Sonarqube scan & to Deploy to Azure Storage
 
 on:
   push:
