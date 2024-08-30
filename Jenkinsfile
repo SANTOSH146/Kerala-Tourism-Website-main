@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    environment {
+        // Replace with your Azure Storage credentials
+        AZURE_STORAGE_ACCOUNT_NAME = mystaticweb146
+        AZURE_STORAGE_CONTAINER_NAME = $web
+        AZURE_STORAGE_ACCOUNT_KEY = azure-storage-account-key
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -39,22 +46,26 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Install Azure CLI') {
             steps {
                 script {
-                    def xamppHtdocs = 'C:/xampp/htdocs/Tourism_website'
-                    def websiteDir = "${env.WORKSPACE}"
+                    // Install Azure CLI (if not already installed)
+                    sh 'curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash'
+                }
+            }
+        }
 
-                    bat """
-                    if exist "${xamppHtdocs}" (
-                        echo Deleting existing files...
-                        rd /S /Q "${xamppHtdocs}"
-                    )
-                    """
-                    bat "mkdir \"${xamppHtdocs}\""
-                    bat """
-                    xcopy "${websiteDir}\\*" "${xamppHtdocs}\\" /E /I /Y
-                    """
+        stage('Upload to Azure Blob Storage') {
+            steps {
+                script {
+                    // Upload files to Azure Blob Storage
+                    sh '''
+                    az storage blob upload-batch \
+                        --account-name $AZURE_STORAGE_ACCOUNT_NAME \
+                        --account-key $AZURE_STORAGE_ACCOUNT_KEY \
+                        --destination $AZURE_STORAGE_CONTAINER_NAME \
+                        --source ./
+                    '''
                 }
             }
         }
