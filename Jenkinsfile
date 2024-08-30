@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         // Replace with your Azure Storage credentials
-        AZURE_STORAGE_ACCOUNT_NAME = mystaticweb146
-        AZURE_STORAGE_CONTAINER_NAME = $web
-        AZURE_STORAGE_ACCOUNT_KEY = azure-storage-account-key
+        AZURE_STORAGE_ACCOUNT_NAME = 'mystaticweb146'
+        AZURE_STORAGE_CONTAINER_NAME = '$web'
+        AZURE_STORAGE_ACCOUNT_KEY = 'azure-storage-account-key'
     }
 
     stages {
