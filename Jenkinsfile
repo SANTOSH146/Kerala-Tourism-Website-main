@@ -23,8 +23,8 @@ pipeline {
 
         stage('Check Tools') {
             steps {
-                bat 'echo %PATH%'
-                bat 'htmlhint --version'
+                sh 'echo %PATH%'
+                sh 'htmlhint --version'
             }
         }
 
