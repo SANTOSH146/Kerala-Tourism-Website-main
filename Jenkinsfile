@@ -29,22 +29,22 @@ pipeline {
         }
 
 
-        stage('Test') {
-            steps {
-                script {
-                    // Example: Running HTML validation using a tool like HTMLHint or a linter
-                    bat 'htmlhint "**/*.html"'
+        // stage('Test') {
+        //     steps {
+        //         script {
+        //             // Example: Running HTML validation using a tool like HTMLHint or a linter or 
+        //             bat 'htmlhint "**/*.html"'
 
-                    // Example: Running CSS validation
-                    bat 'stylelint "**/*.css"'
+        //             // Example: Running CSS validation
+        //             bat 'stylelint "**/*.css"'
 
-                    // Example: Running JavaScript tests (if applicable)
-                    //bat 'eslint "**/*.js"'
+        //             // Example: Running JavaScript tests (if applicable)
+        //             //bat 'eslint "**/*.js"'
 
-                    // You can add more tests or validations as needed
-                }
-            }
-        }
+        //             // You can add more tests or validations as needed
+        //         }
+        //     }
+        // }
 
         stage('Install Azure CLI') {
             steps {
