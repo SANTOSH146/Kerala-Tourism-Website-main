@@ -134,7 +134,7 @@ $(document).ready(function () {
         let textElement = $(this).val()
         let strength = 0
 
-        $('#typepass').find('h4').html(`Your Password: ${textElement}`)
+        $('#typepass').find('h4').text(`Your Password: ${textElement}`)
 
         if (textElement.length > 0) {
             let sizeElements = textElement.length
